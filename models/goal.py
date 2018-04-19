@@ -7,6 +7,9 @@ class GoalModel():
         self.type = type
         self.deadline = deadline
     
+    def json(self):
+        return { "_id": self._id, "name": self.name, "type": self.type, "deadline": self.deadline }
+        
     def save_to_db(self):
         pass
     
