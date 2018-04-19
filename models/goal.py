@@ -12,6 +12,11 @@ class GoalModel():
     def save_to_db(self):
         goals.append(self)
     
+    def remove_from_db(self):
+        index = goals.index(self)
+        goals.pop(index)
+        return
+    
     @classmethod
     def get_goals(cls):
         return goals
