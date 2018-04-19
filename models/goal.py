@@ -1,5 +1,3 @@
-
-
 class GoalModel():
     def __init__(self, _id, name, type, deadline):
         self._id = _id
@@ -9,7 +7,7 @@ class GoalModel():
     
     def json(self):
         return { "_id": self._id, "name": self.name, "type": self.type, "deadline": self.deadline }
-        
+
     def save_to_db(self):
         pass
     
