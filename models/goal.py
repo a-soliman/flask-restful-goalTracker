@@ -12,6 +12,8 @@ class GoalModel():
     def save_to_db(self):
         goals.append(self)
     
+    def update_in_db(self):
+        pass
     def remove_from_db(self):
         index = goals.index(self)
         goals.pop(index)

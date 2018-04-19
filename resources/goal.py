@@ -31,7 +31,23 @@ class Goal(Resource):
         return goal.json()
     
     def put(self, id):
-        pass
+        goal = GoalModel.find_by_id(id)
+
+        if goal is None:
+            return {'message': 'Not found'}, 404
+        
+        data = Goal.parser.parse_args()
+        goal.name = data['name']
+        goal.type = data['type']
+        goal.deadline = data['deadline']
+
+        try:
+            goal.update_in_db(self)
+        except:
+            return {'message': 'An error occured while updating'}, 500
+        
+        return {'message': 'updated'}, 204
+
     
     def delete(self, id):
         goal = GoalModel.find_by_id(id)
