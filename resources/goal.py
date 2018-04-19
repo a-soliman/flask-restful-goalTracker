@@ -29,15 +29,21 @@ class Goal(Resource):
         if goal is None:
             return {'message': 'Not found'}, 404
         return goal.json()
-
-    def post(self):
+    
+    def put(self, id):
         pass
     
-    def put(self):
-        pass
-    
-    def delete(self):
-        pass
+    def delete(self, id):
+        goal = GoalModel.find_by_id(id)
+        if goal is None:
+            return {'message': 'Goal not found'}, 400
+        
+        try:
+            goal.remove_from_db()
+        except:
+            return {'message': 'An Error accoured'}, 500
+        
+        return {'message': 'removed Goal'}
 
 
 class Goals(Resource):
