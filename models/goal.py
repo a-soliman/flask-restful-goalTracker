@@ -1,37 +1,58 @@
+from db import db
+from bson.objectid import ObjectId
 
 class GoalModel():
-    def __init__(self, _id, name, type, deadline):
-        self._id = _id
+    def __init__(self, _id, name, _type, deadline):
+        self._id = str(_id)
         self.name = name
-        self.type = type
+        self.type = _type
         self.deadline = deadline
     
     def json(self):
-        return { "_id": self._id, "name": self.name, "type": self.type, "deadline": self.deadline }
-
-    def save_to_db(self):
-        goals.append(self)
+        return {"_id": self._id, "name": self.name, "type": self.type, "deadline": self.deadline}
     
+    def save_to_db(self):
+        goals_collection = db.goals
+        goal_id = goals_collection.insert_one({"name": self.name, "type": self.type, "deadline": self.deadline}).inserted_id
+        return goal_id
+    
+    def delete_from_db(self):
+        goals_collection = db.goals
+        print('='*20)
+        print(ObjectId.is_valid)
+        print('='*20)
+        result = goals_collection.delete_one({'_id': ObjectId(self._id)})
+        return result
+
     def update_in_db(self):
         pass
-    def remove_from_db(self):
-        index = goals.index(self)
-        goals.pop(index)
-        return
-    
+
     @classmethod
-    def get_goals(cls):
+    def isValid_id(cls, _id):
+        return ObjectId.is_valid(_id)
+        
+    @classmethod
+    def get_all(cls):
+        goals_collection = db.goals
+        goals = []
+
+        for goal in goals_collection.find():
+            goal = GoalModel(goal['_id'], goal['name'], goal['type'], goal['deadline'])
+            goals.append(goal)
         return goals
-    
+
     @classmethod
     def find_by_id(cls, _id):
-        for goal in goals:
-            if goal._id == _id:
-                return goal
+        goals_collection = db.goals
+        result = goals_collection.find_one({'_id': ObjectId(_id)})
+        
+        try:
+            goal = GoalModel(result['_id'], result['name'], result['type'], result['deadline'])
+        except:
+            return None
 
-        return None
+        return goal
 
-goal1 = GoalModel('1', 'learn something new', 'Professional', 'tomorrow')
-goal2 = GoalModel('2', 'learn something new', 'Professional', 'tomorrow')
-goal3 = GoalModel('3', 'learn something new', 'Professional', 'tomorrow')
-goals = [ goal1, goal2, goal3 ]
+
+
+    
