@@ -1,3 +1,6 @@
+'''
+This file contains mongodb uri
+'''
 from pymongo import MongoClient
 
 
