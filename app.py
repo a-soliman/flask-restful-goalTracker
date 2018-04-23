@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api
+from flask_restful import Resource, Api
 
 from resources.goal import Goal, Goals
 
@@ -12,4 +12,5 @@ api.add_resource(Goals, '/goals')
 api.add_resource(Goal, '/goals/<string:_id>')
 
 if __name__ == '__main__':
+    from db import db
     app.run(port=5555 , debug=True)
