@@ -4,6 +4,25 @@ from models.goal import GoalModel
 
 
 class Goal(Resource):
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('name',
+        type = str,
+        required = True,
+        help = 'name is required'
+    )
+
+    parser.add_argument('type',
+        type = str,
+        required = True,
+        help = "Type is required"
+    )
+
+    parser.add_argument('deadline',
+        type = str,
+        required = True,
+        help = "deadline is required"
+    )
     def get(self, _id):
         if not GoalModel.isValid_id(_id):
             return {'message': 'Invalid ID'}, 400
@@ -33,7 +52,21 @@ class Goal(Resource):
         if not GoalModel.isValid_id(_id):
             return {'message': 'Invalid ID'}, 400
         
-        #To Be CONT....
+        goal = GoalModel.find_by_id(_id)
+        if goal is None:
+            return {'message': 'Goal was not found'}, 400
+
+        #parse the updated passed data.
+        data = Goal.parser.parse_args()
+        goal.name = data['name']
+        goal.type = data['type']
+        goal.deadline = data['deadline']
+
+        try:
+            goal.update_in_db()
+        except:
+            return {'message': 'An Error Occured'}, 500
+        return {'message': 'Updated'}, 200
     
     
 class Goals(Resource):
