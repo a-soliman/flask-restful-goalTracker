@@ -5,10 +5,12 @@ from db import db
 
 from resources.goal import Goal, Goals
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/dist')
 api = Api(app)
 
-
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 api.add_resource(Goals, '/goals')
 api.add_resource(Goal, '/goals/<string:_id>')
