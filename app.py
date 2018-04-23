@@ -12,5 +12,4 @@ api.add_resource(Goals, '/goals')
 api.add_resource(Goal, '/goals/<string:_id>')
 
 if __name__ == '__main__':
-    from db import db
     app.run(port=5555 , debug=True)
