@@ -1,16 +1,13 @@
-from flask import Flask, send_from_directory
+from flask import Flask
 from flask_restful import Api
 from db import db
 
 
 from resources.goal import Goal, Goals
 
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__)
 api = Api(app)
 
-@app.route('/<path:path>')
-def serve_page(path):
-    return app.send_static_file('index.html')
 
       
 api.add_resource(Goals, '/goals')
