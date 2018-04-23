@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-
+from db import db
 
 from resources.goal import Goal, Goals
 
