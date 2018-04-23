@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory, template_rendered
 from flask_restful import Resource, Api
 
 from resources.goal import Goal, Goals
