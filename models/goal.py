@@ -18,14 +18,13 @@ class GoalModel():
     
     def delete_from_db(self):
         goals_collection = db.goals
-        print('='*20)
-        print(ObjectId.is_valid)
-        print('='*20)
         result = goals_collection.delete_one({'_id': ObjectId(self._id)})
         return result
 
     def update_in_db(self):
-        pass
+        goals_collection = db.goals
+        goals_collection.update({ "_id": ObjectId(self._id)}, {"$set": {"name": self.name, "type": self.type, "deadline": self.deadline}}, upsert=False)
+        return 
 
     @classmethod
     def isValid_id(cls, _id):
