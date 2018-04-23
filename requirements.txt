@@ -2,4 +2,4 @@ Flask
 Flask-RESTful
 PyMongo
 uwsgi
-bson.objectid
+bson
