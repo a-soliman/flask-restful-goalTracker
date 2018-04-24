@@ -1,12 +1,14 @@
+
 function getGoals() {
-    $.get('https://flask-restful-goaltracker.herokuapp.com/goals', ( data ) => {
-        viewModel.goals(data);
+    $.get(viewModel.apiUrl, ( data ) => {
+        viewModel.goals(data.goals);
     });
 }
 
 function ViewModel() {
     const self = this;
 
+    self.apiUrl = 'https://flask-restful-goaltracker.herokuapp.com/goals'
     self.goalTypes = ko.observableArray(['Health & Fitness', 'Profeessional', 'Family & Relationships', 'Self help']);
 
     // STORES THE GOALS ARRY AFTER THE AJAX CALL
@@ -27,7 +29,7 @@ function ViewModel() {
         const newGoal = { name, type, deadline };
 
         $.ajax({
-            url: 'http://localhost:3333/goals',
+            url: self.apiUrl,
             data: JSON.stringify({"name": name, "type": type, "deadline": deadline}),
             type: "POST",
             contentType: 'application/json',
@@ -46,7 +48,7 @@ function ViewModel() {
     self.deleteGoal = function () {
         const indexInGoals = self.goals().indexOf(this);
         $.ajax({
-            url: `http://localhost:3333/goals/${this._id}`,
+            url: `${self.apiUrl}/${this._id}`,
             type: 'Delete',
             success: function(data) {
                 console.log('deleted', data)
@@ -79,7 +81,7 @@ function ViewModel() {
         let indexInGoals = self.goals().indexOf(goal);
 
         $.ajax({
-            url: `http://localhost:3333/goals/${id}`,
+            url: `${self.apiUrl}/${id}`,
             data: JSON.stringify({"name": name, "type": type, "deadline": deadline}),
             type: 'PUT',
             contentType: 'application/json',
