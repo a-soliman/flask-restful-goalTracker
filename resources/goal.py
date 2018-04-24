@@ -40,7 +40,7 @@ class Goal(Resource):
         goal = GoalModel.find_by_id(_id)
         if goal is None:
             return { 'messge': 'Goal was not found'}, 400
-        
+
         try:
             goal.delete_from_db()
         except:

@@ -13,12 +13,12 @@ class GoalModel():
     
     def save_to_db(self):
         goals_collection = db.goals
-        goal_id = goals_collection.insert_one({"name": self.name, "type": self.type, "deadline": self.deadline}).inserted_id
+        goal_id = goals_collection.insert({"name": self.name, "type": self.type, "deadline": self.deadline})
         return goal_id
     
     def delete_from_db(self):
         goals_collection = db.goals
-        result = goals_collection.delete_one({'_id': ObjectId(self._id)})
+        result = goals_collection.remove({'_id': ObjectId(self._id)})
         return result
 
     def update_in_db(self):
